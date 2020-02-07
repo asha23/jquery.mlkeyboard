@@ -1,19 +1,22 @@
 $freeze-size: 700px;
 
-div#mlkeyboard {
+div#mlkeyboard,
+.numeric-container {
     font-family: Tahoma, Arial, sans-serif;
     width: 100%;
     position: fixed;
     bottom: 0;
 
     ul,
-    li {
+	li,
+	.num-pad {
         -webkit-box-sizing: content-box;
         -moz-box-sizing: content-box;
         box-sizing: content-box;
     }
 
-    ul {
+	ul,
+	.num-pad {
         background: #eee;
         list-style: none;
         font-size: 12px;
@@ -143,5 +146,38 @@ div#mlkeyboard {
         @media screen and (min-width: $freeze-size) {
             height: 46px;
         }
-    }
+	}
+	
+	.num-pad {
+		width: 258px;
+		height: 344px;
+		margin: 0 auto;
+		padding: 0px;
+		border-radius: 5px 5px 0 0;
+
+		li {
+			width:80px;
+			height:80px;
+			line-height:80px;
+		}
+	}
 }
+
+.numeric-container {
+	ul {
+		width: 258px!important;
+		height: 387px!important;
+		margin: 0 auto;
+		padding: 0px;
+		border-radius: 5px 5px 0 0;
+
+		.num-pad-key {
+			 @media screen and (min-width: $freeze-size) {
+				width:80px!important;
+				height:80px!important;
+				line-height:80px!important;
+			 }
+		}
+	}
+}
+

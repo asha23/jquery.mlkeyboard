@@ -1,5 +1,6 @@
 (function($){
   function Key(params) {
+
 	if (Object.prototype.toString.call(params) == "[object Arguments]") {
 		this.keyboard = params[0];
 	} else {
@@ -11,6 +12,7 @@
 }
 
 Key.prototype.render = function () {
+
 	if (this.id) {
 		this.$key.attr("id", this.id);
 	}
@@ -19,6 +21,7 @@ Key.prototype.render = function () {
 };
 
 Key.prototype.setCurrentValue = function () {
+
 	if (this.keyboard.upperRegister()) {
 		this.current_value = this.preferences.u ? this.preferences.u : this.default_value;
 	} else {
@@ -85,6 +88,34 @@ Key.prototype.toggleActiveState = function () {
 Key.prototype.isActive = function () {
 	return false;
 };
+
+Key.prototype.setNumPad = function(classPref) {
+
+	if(classPref === true) {
+		this.$key.addClass('num-pad-key');
+		console.log(this.$key);
+		
+	} 
+
+	if(this.$key.hasClass('num-pad-key') === false || this.$key.hasClass('num-pad-key') === undefined) {
+		this.$key.hide();
+		
+	} else {
+		this.$key.show();
+	}
+
+	if(this.$key.prop('id') === 'mlkeyboard-close') {
+		console.log('er');
+		$('#mlkeyboard-close').show();
+	}
+
+}
+
+Key.prototype.resetNumPad = function() {
+	this.$key.show();
+	this.$key.removeClass('num-pad-key');
+
+}
   function KeyDelete() {
   Key.call(this, arguments);
 
@@ -186,21 +217,21 @@ KeyClose.prototype.constructor = KeyClose;
 KeyClose.prototype.defaultClickAction = function() {
     this.keyboard.hideKeyboard();
 }
-  var KEYS_COUNT = 54;
-
-function Keyboard(selector, options) {
+  function Keyboard(selector, options) {
 
 	this.defaults = {
 		layout: 'en_US',
 		active_shift: true,
 		active_caps: false,
 		is_hidden: true,
+		key_count: 54,
 		open_speed: 300,
 		close_speed: 100,
 		show_on_focus: true,
 		hide_on_blur: true,
 		trigger: undefined,
-		enabled: true
+		enabled: true,
+		is_num_pad: false
 	};
 
 	this.global_options = $.extend({}, this.defaults, options);
@@ -217,34 +248,50 @@ Keyboard.prototype.init = function () {
 	this.$keyboard.append(this.renderKeys());
 	this.$keyboard.append(this.$modifications_holder);
 
+	this.active_shift = this.options.active_shift;
+	this.active_caps = this.options.active_caps;
+
 	$("body").append(this.$keyboard);
 
 	if (this.options.is_hidden) {
 		this.$keyboard.hide();
 	}
 
-	this.setUpKeys();
+	this.setUpKeys(false);
 };
 
-Keyboard.prototype.setUpKeys = function () {
+Keyboard.prototype.setUpKeys = function (numeric) {
+
 	var _this = this;
 
-	this.active_shift = this.options.active_shift;
-	this.active_caps = this.options.active_caps;
 
 	$.each(this.keys, function (i, key) {
 
+	
 		key.preferences = mlKeyboard.layouts[_this.options.layout][i];
+		classPref = key.preferences['np'];
+	
+
+		if(numeric) {
+			key.setNumPad(classPref);
+		
+		} else {
+			key.resetNumPad()
+		}
+
 		key.setCurrentValue();
 		key.setCurrentAction();
 		key.toggleActiveState();
+
 	});
+
+	
 };
 
 Keyboard.prototype.renderKeys = function () {
-	var $keys_holder = $("<ul/>");
 
-	for (var i = 0; i <= KEYS_COUNT; i++) {
+	var $keys_holder = $("<ul/>");
+	for (var i = 0; i <= this.options.key_count; i++) {
 		var key;
 
 		switch (i) {
@@ -277,6 +324,7 @@ Keyboard.prototype.renderKeys = function () {
 			break;
 		}
 
+		
 		this.keys.push(key);
 		$keys_holder.append(key.render());
 	}
@@ -287,14 +335,20 @@ Keyboard.prototype.renderKeys = function () {
 Keyboard.prototype.setUpFor = function ($input) {
 	var _this = this;
 
+
 	if (this.options.show_on_focus) {
-		$input.bind('focus', function () { _this.showKeyboard($input); });
+		$input.bind('focus', function () { 
+			_this.showKeyboard($input); 
+
+			
+		});
 	}
 
 	if (this.options.hide_on_blur) {
+
 		$input.bind('blur', function () {
 			var VERIFY_STATE_DELAY = 500;
-
+			
 			// Input focus changes each time when user click on keyboard key
 			// To prevent momentary keyboard collapse input state verifies with timers help
 			// Any key click action set current inputs keep_focus variable to true
@@ -307,12 +361,13 @@ Keyboard.prototype.setUpFor = function ($input) {
 					_this.keep_focus = false; 
 				}
 			}, VERIFY_STATE_DELAY);
+
+			
 		});
 	}
 
 	if (this.options.trigger) {
 		var $trigger = $(this.options.trigger);
-
 
 		$trigger.bind('click', function (e) {
 			e.preventDefault();
@@ -340,17 +395,39 @@ Keyboard.prototype.showKeyboard = function ($input) {
 
 		this.options = $.extend({}, this.global_options, this.inputLocalOptions());
 
-
 		if (!this.options.enabled) {
+
 			this.keep_focus = true;
-			return;
+			var that = this;
+
+  			setTimeout(function(){ 
+				  that.selectionStart = that.selectionEnd = 10000; 
+			}, 0);
 		}
 
 		if (this.$current_input.val() !== '') {
 			this.options.active_shift = false;
 		}
 
-		this.setUpKeys();
+		charCount = this.$current_input.val().length;
+
+
+		if(this.$current_input.hasClass('numeric')) {
+			this.numeric = true
+			this.$keyboard.addClass('numeric-container');
+			this.unshift();
+			this.setUpKeys(this.numeric);
+			
+		} else {
+			this.numeric = false;
+			this.$keyboard.removeClass('numeric-container');
+			if(charCount <= 1) {
+				this.resetShift();
+			} else {
+				this.unshift();
+			}
+			this.setUpKeys(this.numeric);
+		}
 
 		if (this.options.is_hidden) {
 			this.isVisible = true;
@@ -450,7 +527,16 @@ Keyboard.prototype.toggleShift = function (state) {
 	this.changeKeysState();
 };
 
+Keyboard.prototype.resetShift = function() {
+	this.active_shift = true;
+}
+
+Keyboard.prototype.unshift = function() {
+	this.active_shift = false;
+}
+
 Keyboard.prototype.toggleCaps = function (state) {
+
 	this.active_caps = state ? state : !this.active_caps;
 	this.changeKeysState();
 };
@@ -478,18 +564,18 @@ var mlKeyboard = mlKeyboard || {layouts: {}};
 
 mlKeyboard.layouts.en_US = [
   {d: '`', u: '~'},
-  {d: '1',u: '!'},
-  {d: '2',u: '@'},
-  {d: '3',u: '#'},
-  {d: '4',u: '$'},
-  {d: '5',u: '%'},
-  {d: '6',u: '^'},
-  {d: '7',u: '&'},
-  {d: '8',u: '*'},
-  {d: '9',u: '('},
-  {d: '0',u: ')'},
-  {d: '-',u: '_'},
-  {d: '=',u: '+'},
+  {d: '1',u: '!', np: true},
+  {d: '2',u: '@', np: true},
+  {d: '3',u: '#', np: true},
+  {d: '4',u: '$', np: true},
+  {d: '5',u: '%', np: true},
+  {d: '6',u: '^', np: true},
+  {d: '7',u: '&', np: true},
+  {d: '8',u: '*', np: true},
+  {d: '9',u: '(', np: true},
+  {d: '0',u: ')', np: true},
+  {d: '-',u: '_', np: true},
+  {d: '=',u: '+', np: true},
   {}, // Delete
   {}, // Tab
   {d: 'q',u: 'Q'},
@@ -945,3 +1031,20 @@ mlKeyboard.layouts.fr_FR = [
   {} // Close
 ];
 
+var mlKeyboard = mlKeyboard || {layouts: {}};
+
+mlKeyboard.layouts.num_pad = [
+    {d: '1',u: '!'},
+    {d: '2',u: '@'},
+    {d: '3',u: '#'},
+    {d: '4',u: '$'},
+    {d: '5',u: '%'},
+    {d: '6',u: '^'},
+    {d: '7',u: '&'},
+    {d: '8',u: '*'},
+    {d: '9',u: '('},
+    {d: '*',u: ''},
+    {d: '0',u: ')'},
+    {d: '#',u: ''},
+    {} // shift
+];

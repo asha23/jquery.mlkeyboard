@@ -1,4 +1,5 @@
 function Key(params) {
+
 	if (Object.prototype.toString.call(params) == "[object Arguments]") {
 		this.keyboard = params[0];
 	} else {
@@ -10,6 +11,7 @@ function Key(params) {
 }
 
 Key.prototype.render = function () {
+
 	if (this.id) {
 		this.$key.attr("id", this.id);
 	}
@@ -18,6 +20,7 @@ Key.prototype.render = function () {
 };
 
 Key.prototype.setCurrentValue = function () {
+
 	if (this.keyboard.upperRegister()) {
 		this.current_value = this.preferences.u ? this.preferences.u : this.default_value;
 	} else {
@@ -84,3 +87,31 @@ Key.prototype.toggleActiveState = function () {
 Key.prototype.isActive = function () {
 	return false;
 };
+
+Key.prototype.setNumPad = function(classPref) {
+
+	if(classPref === true) {
+		this.$key.addClass('num-pad-key');
+		console.log(this.$key);
+		
+	} 
+
+	if(this.$key.hasClass('num-pad-key') === false || this.$key.hasClass('num-pad-key') === undefined) {
+		this.$key.hide();
+		
+	} else {
+		this.$key.show();
+	}
+
+	if(this.$key.prop('id') === 'mlkeyboard-close') {
+		console.log('er');
+		$('#mlkeyboard-close').show();
+	}
+
+}
+
+Key.prototype.resetNumPad = function() {
+	this.$key.show();
+	this.$key.removeClass('num-pad-key');
+
+}
