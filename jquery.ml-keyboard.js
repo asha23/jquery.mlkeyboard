@@ -1,89 +1,89 @@
 (function($){
   function Key(params) {
-  if (Object.prototype.toString.call(params) == "[object Arguments]") {
-    this.keyboard = params[0];
-  } else {
-    this.keyboard = params;
-  }
+	if (Object.prototype.toString.call(params) == "[object Arguments]") {
+		this.keyboard = params[0];
+	} else {
+		this.keyboard = params;
+	}
 
-  this.$key = $("<li/>");
-  this.current_value = null;
+	this.$key = $("<li/>");
+	this.current_value = null;
 }
 
-Key.prototype.render = function() {
-  if (this.id) {
-    this.$key.attr("id", this.id);
-  }
+Key.prototype.render = function () {
+	if (this.id) {
+		this.$key.attr("id", this.id);
+	}
 
-  return this.$key;
+	return this.$key;
 };
 
-Key.prototype.setCurrentValue = function() {
-  if (this.keyboard.upperRegister()) {
-    this.current_value = this.preferences.u ? this.preferences.u : this.default_value;
-  } else {
-    this.current_value = this.preferences.d ? this.preferences.d : this.default_value;
-  }
-  this.$key.text(this.current_value);
+Key.prototype.setCurrentValue = function () {
+	if (this.keyboard.upperRegister()) {
+		this.current_value = this.preferences.u ? this.preferences.u : this.default_value;
+	} else {
+		this.current_value = this.preferences.d ? this.preferences.d : this.default_value;
+	}
+	this.$key.text(this.current_value);
 };
 
-Key.prototype.setCurrentAction = function() {
-  var _this = this;
+Key.prototype.setCurrentAction = function () {
+	var _this = this;
 
-  this.$key.unbind("click.mlkeyboard");
-  this.$key.bind("click.mlkeyboard", function(){
-    _this.keyboard.keep_focus = true;
+	this.$key.unbind("click.mlkeyboard");
+	this.$key.bind("click.mlkeyboard", function () {
+		_this.keyboard.keep_focus = true;
 
-    if (typeof(_this.preferences.onClick) === "function") {
-      _this.preferences.onClick(_this);
-    } else {
-      _this.defaultClickAction();
-    }
-  });
+		if (typeof (_this.preferences.onClick) === "function") {
+			_this.preferences.onClick(_this);
+		} else {
+			_this.defaultClickAction();
+		}
+	});
 };
 
-Key.prototype.defaultClickAction = function() {
-  this.keyboard.destroyModifications();
+Key.prototype.defaultClickAction = function () {
+	this.keyboard.destroyModifications();
 
-  if (this.is_modificator) {
-    this.keyboard.deleteChar();
-    this.keyboard.printChar(this.current_value);
-  } else {
-    this.keyboard.printChar(this.current_value);
-  }
+	if (this.is_modificator) {
+		this.keyboard.deleteChar();
+		this.keyboard.printChar(this.current_value);
+	} else {
+		this.keyboard.printChar(this.current_value);
+	}
 
-  if (this.preferences.m && Object.prototype.toString.call(this.preferences.m) === '[object Array]') {
-    this.showModifications();
-  }
+	if (this.preferences.m && Object.prototype.toString.call(this.preferences.m) === '[object Array]') {
+		this.showModifications();
+	}
 
-  if (this.keyboard.active_shift) this.keyboard.toggleShift(false);
+	if (this.keyboard.active_shift) this.keyboard.toggleShift(false);
 };
 
-Key.prototype.showModifications = function() {
-  var _this = this;
+Key.prototype.showModifications = function () {
+	var _this = this;
 
-  this.keyboard.modifications = [];
+	this.keyboard.modifications = [];
 
-  $.each(this.preferences.m, function(i, modification) {
-    var key = new Key(_this.keyboard);
-    key.is_modificator = true;
-    key.preferences = modification;
-    _this.keyboard.modifications.push(key);
-  });
+	$.each(this.preferences.m, function (i, modification) {
+		var key = new Key(_this.keyboard);
+		key.is_modificator = true;
+		key.preferences = modification;
+		_this.keyboard.modifications.push(key);
+	});
 
-  this.keyboard.showModifications(this);
+	this.keyboard.showModifications(this);
 };
 
-Key.prototype.toggleActiveState = function() {
-  if (this.isActive()) {
-    this.$key.addClass('active');
-  } else {
-    this.$key.removeClass('active');
-  }
+Key.prototype.toggleActiveState = function () {
+	if (this.isActive()) {
+		this.$key.addClass('active');
+	} else {
+		this.$key.removeClass('active');
+	}
 };
 
-Key.prototype.isActive = function() {
-  return false;
+Key.prototype.isActive = function () {
+	return false;
 };
   function KeyDelete() {
   Key.call(this, arguments);
@@ -189,6 +189,7 @@ KeyClose.prototype.defaultClickAction = function() {
   var KEYS_COUNT = 54;
 
 function Keyboard(selector, options) {
+
 	this.defaults = {
 		layout: 'en_US',
 		active_shift: true,
@@ -218,7 +219,9 @@ Keyboard.prototype.init = function () {
 
 	$("body").append(this.$keyboard);
 
-	if (this.options.is_hidden) this.$keyboard.hide();
+	if (this.options.is_hidden) {
+		this.$keyboard.hide();
+	}
 
 	this.setUpKeys();
 };
@@ -298,14 +301,19 @@ Keyboard.prototype.setUpFor = function ($input) {
 			clearTimeout(_this.blur_timeout);
 
 			_this.blur_timeout = setTimeout(function () {
-				if (!_this.keep_focus) { _this.hideKeyboard(); }
-				else { _this.keep_focus = false; }
+				if (!_this.keep_focus) { 
+					_this.hideKeyboard(); 
+				} else { 
+					_this.keep_focus = false; 
+				}
 			}, VERIFY_STATE_DELAY);
 		});
 	}
 
 	if (this.options.trigger) {
 		var $trigger = $(this.options.trigger);
+
+
 		$trigger.bind('click', function (e) {
 			e.preventDefault();
 
@@ -323,13 +331,18 @@ Keyboard.prototype.showKeyboard = function ($input) {
 	var input_changed = !this.$current_input || $input[0] !== this.$current_input[0];
 
 	if (!this.keep_focus || input_changed) {
-		if (input_changed) this.keep_focus = true;
+
+		if (input_changed) {
+			this.keep_focus = true;
+		}
 
 		this.$current_input = $input;
+
 		this.options = $.extend({}, this.global_options, this.inputLocalOptions());
 
+
 		if (!this.options.enabled) {
-			this.keep_focus = false;
+			this.keep_focus = true;
 			return;
 		}
 
@@ -355,20 +368,25 @@ Keyboard.prototype.hideKeyboard = function () {
 
 Keyboard.prototype.inputLocalOptions = function () {
 	var options = {};
+
 	for (var key in this.defaults) {
 		var input_option = this.$current_input.attr("data-mlkeyboard-" + key);
+
 		if (input_option == "false") {
 			input_option = false;
 		} else if (input_option == "true") {
 			input_option = true;
 		}
-		if (typeof input_option !== 'undefined') { options[key] = input_option; }
+		if (typeof input_option !== 'undefined') { 
+			options[key] = input_option; 
+		}
 	}
 
 	return options;
 };
 
 Keyboard.prototype.printChar = function (char) {
+
 	var selStart = this.$current_input[0].selectionStart;
 	var selEnd = this.$current_input[0].selectionEnd;
 	var textAreaStr = this.$current_input.val();

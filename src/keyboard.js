@@ -1,6 +1,7 @@
 var KEYS_COUNT = 54;
 
 function Keyboard(selector, options) {
+
 	this.defaults = {
 		layout: 'en_US',
 		active_shift: true,
@@ -30,7 +31,9 @@ Keyboard.prototype.init = function () {
 
 	$("body").append(this.$keyboard);
 
-	if (this.options.is_hidden) this.$keyboard.hide();
+	if (this.options.is_hidden) {
+		this.$keyboard.hide();
+	}
 
 	this.setUpKeys();
 };
@@ -110,14 +113,19 @@ Keyboard.prototype.setUpFor = function ($input) {
 			clearTimeout(_this.blur_timeout);
 
 			_this.blur_timeout = setTimeout(function () {
-				if (!_this.keep_focus) { _this.hideKeyboard(); }
-				else { _this.keep_focus = false; }
+				if (!_this.keep_focus) { 
+					_this.hideKeyboard(); 
+				} else { 
+					_this.keep_focus = false; 
+				}
 			}, VERIFY_STATE_DELAY);
 		});
 	}
 
 	if (this.options.trigger) {
 		var $trigger = $(this.options.trigger);
+
+
 		$trigger.bind('click', function (e) {
 			e.preventDefault();
 
@@ -135,13 +143,18 @@ Keyboard.prototype.showKeyboard = function ($input) {
 	var input_changed = !this.$current_input || $input[0] !== this.$current_input[0];
 
 	if (!this.keep_focus || input_changed) {
-		if (input_changed) this.keep_focus = true;
+
+		if (input_changed) {
+			this.keep_focus = true;
+		}
 
 		this.$current_input = $input;
+
 		this.options = $.extend({}, this.global_options, this.inputLocalOptions());
 
+
 		if (!this.options.enabled) {
-			this.keep_focus = false;
+			this.keep_focus = true;
 			return;
 		}
 
@@ -167,20 +180,25 @@ Keyboard.prototype.hideKeyboard = function () {
 
 Keyboard.prototype.inputLocalOptions = function () {
 	var options = {};
+
 	for (var key in this.defaults) {
 		var input_option = this.$current_input.attr("data-mlkeyboard-" + key);
+
 		if (input_option == "false") {
 			input_option = false;
 		} else if (input_option == "true") {
 			input_option = true;
 		}
-		if (typeof input_option !== 'undefined') { options[key] = input_option; }
+		if (typeof input_option !== 'undefined') { 
+			options[key] = input_option; 
+		}
 	}
 
 	return options;
 };
 
 Keyboard.prototype.printChar = function (char) {
+
 	var selStart = this.$current_input[0].selectionStart;
 	var selEnd = this.$current_input[0].selectionEnd;
 	var textAreaStr = this.$current_input.val();
