@@ -112,5 +112,6 @@ mlKeyboard.layouts.fr_FR = [
   {d: '.',u: '?'},
   {d: 'ç',u: 'Ç'},
   {}, // Right shift
-  {}  // Space
+  {},  // Space,
+  {} // Close
 ];

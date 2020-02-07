@@ -6,6 +6,7 @@
   @@include('key_return.js')
   @@include('key_shift.js')
   @@include('key_space.js')
+  @@include('key_close.js')
   @@include('keyboard.js')
 
   $.fn.mlKeyboard = function(options) {

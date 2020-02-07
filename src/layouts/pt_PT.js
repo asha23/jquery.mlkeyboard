@@ -78,5 +78,6 @@ mlKeyboard.layouts.pt_PT = [
   {d: '.',u: '?'},
   {d: 'ç',u: 'Ç'},
   {}, // Right shift
-  {}  // Space
+  {},  // Space,
+  {} // Close
 ];

@@ -54,5 +54,6 @@ mlKeyboard.layouts.ru_RU = [
   {d: 'ю',u: 'Ю'},
   {d: '.',u: ','},
   {}, // Right Shift
-  {} // Space
+  {},  // Space,
+  {} // Close
 ];

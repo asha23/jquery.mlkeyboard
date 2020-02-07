@@ -54,5 +54,6 @@ mlKeyboard.layouts.en_US = [
   {d: '.',u: '>'},
   {d: '/',u: '?'},
   {}, // Right shift
-  {}  // Space
+  {},  // Space,
+  {} // Close
 ];

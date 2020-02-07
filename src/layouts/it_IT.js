@@ -67,5 +67,6 @@ mlKeyboard.layouts.it_IT = [
   {d: '.',u: ':'},
   {d: '-',u: '_'},
   {}, // Right shift
-  {}  // Space
+  {},  // Space,
+  {} // Close
 ];

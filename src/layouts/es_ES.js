@@ -70,5 +70,6 @@ mlKeyboard.layouts.es_ES = [
   {d: '.',u: '?'},
   {d: 'ç',u: 'Ç'},
   {}, // Right shift
-  {}  // Space
+  {},  // Space,
+  {} // Close
 ];
