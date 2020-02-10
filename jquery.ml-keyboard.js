@@ -1,4 +1,126 @@
 (function($){
+  /**
+	 * Focusses the next :focusable element. Elements with tabindex=-1 are focusable, but not tabable.
+	 * Does not take into account that the taborder might be different as the :tabbable elements order
+	 * (which happens when using tabindexes which are greater than 0).
+	 */
+	$.focusNext = function(){
+		selectNextTabbableOrFocusable(':focusable');
+	};
+
+	/**
+	 * Focusses the previous :focusable element. Elements with tabindex=-1 are focusable, but not tabable.
+	 * Does not take into account that the taborder might be different as the :tabbable elements order
+	 * (which happens when using tabindexes which are greater than 0).
+	 */
+	$.focusPrev = function(){
+		selectPrevTabbableOrFocusable(':focusable');
+	};
+
+	/**
+	 * Focusses the next :tabable element.
+	 * Does not take into account that the taborder might be different as the :tabbable elements order
+	 * (which happens when using tabindexes which are greater than 0).
+	 */
+	$.tabNext = function(){
+		selectNextTabbableOrFocusable(':tabbable');
+	};
+
+	/**
+	 * Focusses the previous :tabbable element
+	 * Does not take into account that the taborder might be different as the :tabbable elements order
+	 * (which happens when using tabindexes which are greater than 0).
+	 */
+	$.tabPrev = function(){
+		selectPrevTabbableOrFocusable(':tabbable');
+	};
+
+	function selectNextTabbableOrFocusable(selector){
+		var selectables = $(selector);
+		var current = $(':focus');
+		var nextIndex = 0;
+		if(current.length === 1){
+			var currentIndex = selectables.index(current);
+			if(currentIndex + 1 < selectables.length){
+				nextIndex = currentIndex + 1;
+			}
+		}
+
+		selectables.eq(nextIndex).focus();
+	}
+
+	function selectPrevTabbableOrFocusable(selector){
+		var selectables = $(selector);
+		var current = $(':focus');
+		var prevIndex = selectables.length - 1;
+		if(current.length === 1){
+			var currentIndex = selectables.index(current);
+			if(currentIndex > 0){
+				prevIndex = currentIndex - 1;
+			}
+		}
+
+		selectables.eq(prevIndex).focus();
+	}
+
+	/**
+	 * :focusable and :tabbable, both taken from jQuery UI Core
+	 */
+	$.extend($.expr[ ':' ], {
+		data: $.expr.createPseudo ?
+			$.expr.createPseudo(function(dataName){
+				return function(elem){
+					return !!$.data(elem, dataName);
+				};
+			}) :
+			// support: jQuery <1.8
+			function(elem, i, match){
+				return !!$.data(elem, match[ 3 ]);
+			},
+
+		focusable: function(element){
+			return focusable(element, !isNaN($.attr(element, 'tabindex')));
+		},
+
+		tabbable: function(element){
+			var tabIndex = $.attr(element, 'tabindex'),
+				isTabIndexNaN = isNaN(tabIndex);
+			return ( isTabIndexNaN || tabIndex >= 0 ) && focusable(element, !isTabIndexNaN);
+		}
+	});
+
+	/**
+	 * focussable function, taken from jQuery UI Core
+	 * @param element
+	 * @returns {*}
+	 */
+	function focusable(element){
+		var map, mapName, img,
+			nodeName = element.nodeName.toLowerCase(),
+			isTabIndexNotNaN = !isNaN($.attr(element, 'tabindex'));
+		if('area' === nodeName){
+			map = element.parentNode;
+			mapName = map.name;
+			if(!element.href || !mapName || map.nodeName.toLowerCase() !== 'map'){
+				return false;
+			}
+			img = $('img[usemap=#' + mapName + ']')[0];
+			return !!img && visible(img);
+		}
+		return ( /^(input|select|textarea|button|object)$/.test(nodeName) ?
+			!element.disabled :
+			'a' === nodeName ?
+				element.href || isTabIndexNotNaN :
+				isTabIndexNotNaN) &&
+			// the element and all of its ancestors must be visible
+			visible(element);
+
+		function visible(element){
+			return $.expr.filters.visible(element) && !$(element).parents().addBack().filter(function(){
+				return $.css(this, 'visibility') === 'hidden';
+			}).length;
+		}
+	}
   function Key(params) {
 
 	if (Object.prototype.toString.call(params) == "[object Arguments]") {
@@ -9,6 +131,7 @@
 
 	this.$key = $("<li/>");
 	this.current_value = null;
+
 }
 
 Key.prototype.render = function () {
@@ -26,6 +149,7 @@ Key.prototype.setCurrentValue = function () {
 		this.current_value = this.preferences.u ? this.preferences.u : this.default_value;
 	} else {
 		this.current_value = this.preferences.d ? this.preferences.d : this.default_value;
+		
 	}
 	this.$key.text(this.current_value);
 };
@@ -49,10 +173,14 @@ Key.prototype.defaultClickAction = function () {
 	this.keyboard.destroyModifications();
 
 	if (this.is_modificator) {
-		this.keyboard.deleteChar();
-		this.keyboard.printChar(this.current_value);
+		if(!this.no_char) {
+			this.keyboard.deleteChar();
+			this.keyboard.printChar(this.current_value);
+		}
 	} else {
-		this.keyboard.printChar(this.current_value);
+		if(!this.no_char) {
+			this.keyboard.printChar(this.current_value);
+		}
 	}
 
 	if (this.preferences.m && Object.prototype.toString.call(this.preferences.m) === '[object Array]') {
@@ -93,28 +221,35 @@ Key.prototype.setNumPad = function(classPref) {
 
 	if(classPref === true) {
 		this.$key.addClass('num-pad-key');
-		console.log(this.$key);
-		
 	} 
 
 	if(this.$key.hasClass('num-pad-key') === false || this.$key.hasClass('num-pad-key') === undefined) {
 		this.$key.hide();
-		
-	} else {
-		this.$key.show();
-	}
+	} 
 
 	if(this.$key.prop('id') === 'mlkeyboard-close') {
-		console.log('er');
+		$('#mlkeyboard-left-arrow').show();
+		$('#mlkeyboard-right-arrow').show();
 		$('#mlkeyboard-close').show();
 	}
-
 }
 
-Key.prototype.resetNumPad = function() {
+Key.prototype.resetNumPad = function(emailPref) {
 	this.$key.show();
 	this.$key.removeClass('num-pad-key');
+	this.$key.removeClass('num-pad-key-extras');
 
+	if(emailPref === true) {
+		this.$key.show();
+	}
+}
+
+Key.prototype.defaultHide = function(){
+	this.$key.hide();
+}
+
+Key.prototype.defaultShow = function(){
+	this.$key.show();
 }
   function KeyDelete() {
   Key.call(this, arguments);
@@ -195,6 +330,26 @@ KeyShift.prototype.isActive = function() {
 KeyShift.prototype.defaultClickAction = function() {
   this.keyboard.toggleShift();
 };
+  function KeyLeftArrow() {
+    Key.call(this, arguments);
+  
+    this.id = "mlkeyboard-left-arrow";
+    this.default_value = '←';
+    this.no_char = true;
+  }
+  
+  KeyLeftArrow.prototype = new Key();
+  KeyLeftArrow.prototype.constructor = KeyLeftArrow;
+  function KeyClear() {
+    Key.call(this, arguments);
+  
+    this.id = "mlkeyboard-clear";
+    this.default_value = '';
+    this.no_char = true;
+  }
+  
+  KeyClear.prototype = new Key();
+  KeyClear.prototype.constructor = KeyClear;
   function KeySpace() {
   Key.call(this, arguments);
 
@@ -204,6 +359,16 @@ KeyShift.prototype.defaultClickAction = function() {
 
 KeySpace.prototype = new Key();
 KeySpace.prototype.constructor = KeySpace;
+  function KeyRightArrow() {
+    Key.call(this, arguments);
+  
+    this.id = "mlkeyboard-right-arrow";
+    this.default_value = '→';
+    this.no_char = true;
+  }
+  
+  KeyRightArrow.prototype = new Key();
+  KeyRightArrow.prototype.constructor = KeyRightArrow;
   function KeyClose(){
     Key.call(this, arguments);
 
@@ -224,7 +389,7 @@ KeyClose.prototype.defaultClickAction = function() {
 		active_shift: true,
 		active_caps: false,
 		is_hidden: true,
-		key_count: 54,
+		key_count: 61,
 		open_speed: 300,
 		close_speed: 100,
 		show_on_focus: true,
@@ -239,7 +404,7 @@ KeyClose.prototype.defaultClickAction = function() {
 
 	this.keys = [];
 
-	this.$keyboard = $("<div/>").attr("id", "mlkeyboard");
+	this.$keyboard = $("<div class='default-container' />").attr("id", "mlkeyboard");
 	this.$modifications_holder = $("<ul/>").addClass('mlkeyboard-modifications');
 	this.$current_input = $(selector);
 }
@@ -258,66 +423,98 @@ Keyboard.prototype.init = function () {
 	}
 
 	this.setUpKeys(false);
+
+	_this = this;
+
+	$('#mlkeyboard-left-arrow').click(function(e){
+		e.preventDefault();
+		_this.doTabLeft(_this.tab_index, _this.$current_input, _this.focussed_element);
+		
+	})
+
+	$('#mlkeyboard-right-arrow').click(function(e){
+		e.preventDefault();
+		_this.doTabRight(_this.tab_index, _this.$current_input, _this.focussed_element);
+	})
 };
 
 Keyboard.prototype.setUpKeys = function (numeric) {
 
 	var _this = this;
 
+	this.numkeys = this.keys.length;
 
 	$.each(this.keys, function (i, key) {
-
-	
 		key.preferences = mlKeyboard.layouts[_this.options.layout][i];
+
 		classPref = key.preferences['np'];
-	
+		emailPref = key.preferences['email'];
+		defaultHide = key.preferences['hide']
 
 		if(numeric) {
 			key.setNumPad(classPref);
-		
-		} else {
-			key.resetNumPad()
-		}
 
+			if(defaultHide === true) {
+				key.defaultShow();
+			}
+		} else {
+			key.resetNumPad(emailPref)
+
+			if(defaultHide === true) {
+				key.defaultHide();
+			}
+		}
+		
 		key.setCurrentValue();
 		key.setCurrentAction();
 		key.toggleActiveState();
 
 	});
-
-	
 };
 
 Keyboard.prototype.renderKeys = function () {
 
-	var $keys_holder = $("<ul/>");
+	var $keys_holder = $("<ul />");
 	for (var i = 0; i <= this.options.key_count; i++) {
 		var key;
 
+		
+		console.log(key);
+		console.dir(i + ' = ');
+
 		switch (i) {
-			case 13:
-				key = new KeyDelete(this);
+			case 15:
+				key = new KeyDelete(this); // Delete
 			break;
-			case 14:
+			case 16:
 				key = new KeyTab(this);
 			break;
-			case 28:
+			case 30:
 				key = new KeyCapsLock(this);
 			break;
-			case 40:
+			case 42:
 				key = new KeyReturn(this);
 			break;
-			case 41:
+			case 43:
 				key = new KeyShift(this, "left");
 			break;
-			case 52:
+			case 54:
 				key = new KeyShift(this, "right");
 			break;
-			case 53:
+			case 56:
 				key = new KeySpace(this);
 			break;
-			case 54:
+			case 58:
+				key = new KeyClear(this);
+			break;
+			case 59:
+				key = new KeyLeftArrow(this);
+			break;
+			case 60:
 				key = new KeyClose(this);
+			break;
+			case 61:
+				key = new KeyRightArrow(this);
 			break;
 			default:
 				key = new Key(this);
@@ -339,8 +536,6 @@ Keyboard.prototype.setUpFor = function ($input) {
 	if (this.options.show_on_focus) {
 		$input.bind('focus', function () { 
 			_this.showKeyboard($input); 
-
-			
 		});
 	}
 
@@ -349,9 +544,6 @@ Keyboard.prototype.setUpFor = function ($input) {
 		$input.bind('blur', function () {
 			var VERIFY_STATE_DELAY = 500;
 			
-			// Input focus changes each time when user click on keyboard key
-			// To prevent momentary keyboard collapse input state verifies with timers help
-			// Any key click action set current inputs keep_focus variable to true
 			clearTimeout(_this.blur_timeout);
 
 			_this.blur_timeout = setTimeout(function () {
@@ -391,7 +583,9 @@ Keyboard.prototype.showKeyboard = function ($input) {
 			this.keep_focus = true;
 		}
 
+		this.tab_index = null;
 		this.$current_input = $input;
+		this.tab_index = this.$current_input.index('.tabbable');
 
 		this.options = $.extend({}, this.global_options, this.inputLocalOptions());
 
@@ -401,7 +595,7 @@ Keyboard.prototype.showKeyboard = function ($input) {
 			var that = this;
 
   			setTimeout(function(){ 
-				  that.selectionStart = that.selectionEnd = 10000; 
+				that.selectionStart = that.selectionEnd = 10000; 
 			}, 0);
 		}
 
@@ -411,21 +605,32 @@ Keyboard.prototype.showKeyboard = function ($input) {
 
 		charCount = this.$current_input.val().length;
 
-
 		if(this.$current_input.hasClass('numeric')) {
 			this.numeric = true
+			this.$keyboard.removeClass();
 			this.$keyboard.addClass('numeric-container');
 			this.unshift();
 			this.setUpKeys(this.numeric);
 			
 		} else {
 			this.numeric = false;
-			this.$keyboard.removeClass('numeric-container');
+			this.$keyboard.removeClass();
+			this.$keyboard.addClass('default-container');
+
+			if(this.$current_input.hasClass('email-field')) {
+				this.$keyboard.removeClass();
+				this.$keyboard.addClass('email-container');
+			} else {
+				this.$keyboard.removeClass();
+				this.$keyboard.addClass('default-container');
+			}
+
 			if(charCount <= 1) {
 				this.resetShift();
 			} else {
 				this.unshift();
 			}
+
 			this.setUpKeys(this.numeric);
 		}
 
@@ -433,6 +638,8 @@ Keyboard.prototype.showKeyboard = function ($input) {
 			this.isVisible = true;
 			this.$keyboard.slideDown(this.options.openSpeed);
 		}
+
+		
 	}
 };
 
@@ -548,6 +755,15 @@ Keyboard.prototype.changeKeysState = function () {
 	});
 };
 
+Keyboard.prototype.doTabLeft = function(tab_index) {
+	$('.tabbable').eq(tab_index - 1).focus();
+}
+
+Keyboard.prototype.doTabRight = function(tab_index) {
+	$('.tabbable').eq(tab_index + 1).focus();
+}
+
+
 
   $.fn.mlKeyboard = function(options) {
     var keyboard = new Keyboard(this.selector, options);
@@ -573,9 +789,11 @@ mlKeyboard.layouts.en_US = [
   {d: '7',u: '&', np: true},
   {d: '8',u: '*', np: true},
   {d: '9',u: '(', np: true},
+  {d: '*', u:'*', np: true, hide:true},
   {d: '0',u: ')', np: true},
-  {d: '-',u: '_', np: true},
-  {d: '=',u: '+', np: true},
+  {d: '#', u:'#', np: true, hide:true},
+  {d: '-',u: '_'},
+  {d: '=',u: '+'},
   {}, // Delete
   {}, // Tab
   {d: 'q',u: 'Q'},
@@ -616,8 +834,13 @@ mlKeyboard.layouts.en_US = [
   {d: '.',u: '>'},
   {d: '/',u: '?'},
   {}, // Right shift
-  {},  // Space,
-  {} // Close
+  {d: '@', u:'@', email:true},
+  {}, // Space,
+  {d: '.', u:'.', email:true},
+  {}, // Clear
+  {}, // Left Arrow
+  {}, // Close
+  {}, // Right Arrow
 ];
 
 var mlKeyboard = mlKeyboard || {layouts: {}};
@@ -1045,6 +1268,5 @@ mlKeyboard.layouts.num_pad = [
     {d: '9',u: '('},
     {d: '*',u: ''},
     {d: '0',u: ')'},
-    {d: '#',u: ''},
-    {} // shift
+    {d: '#',u: ''}
 ];

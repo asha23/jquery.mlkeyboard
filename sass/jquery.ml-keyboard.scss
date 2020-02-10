@@ -6,6 +6,8 @@ div#mlkeyboard,
     width: 100%;
     position: fixed;
     bottom: 0;
+	text-align:center;
+	display:block!important;
 
     ul,
 	li,
@@ -26,14 +28,14 @@ div#mlkeyboard,
 
         @media screen and (min-width: $freeze-size) {
             width: 670px;
-            height: 274px;
+            height: 283px;
             margin: 0 auto;
             padding: 0px;
             border-radius: 5px 5px 0 0;
         }
 
         li {
-            float: left;
+            display:inline-block;
             margin: 0 0 0.5% 0.5%;
             width: 6%;
             text-align: center;
@@ -43,8 +45,10 @@ div#mlkeyboard,
             -webkit-border-radius: 5px;
             border-color: #e5e5e5;
             cursor: pointer;
+			vertical-align:middle;
 
             @media screen and (min-width: $freeze-size) {
+				display:inline-block;
                 width: 40px;
                 height: 40px;
                 line-height: 40px;
@@ -62,10 +66,18 @@ div#mlkeyboard,
             }
         }
 
+		.email-keys {
+			display:none;
+		}
+
+		.num-pad-key-extras {
+			display:none;
+		}
+
         #mlkeyboard-capslock,
         #mlkeyboard-tab,
         #mlkeyboard-left-shift {
-            clear: left;
+
         }
 
         #mlkeyboard-backspace {
@@ -116,23 +128,46 @@ div#mlkeyboard,
         }
 
         #mlkeyboard-space {
-            clear: left;
+      
             width: 98%;
 
             @media screen and (min-width: $freeze-size) {
-                width: 662px;
+                width: 453px;
+	
             }
+			
 		}
 		
 		#mlkeyboard-close {
 			text-align: center;
 			background: white;
-			clear: both;
-			float: none;
+
+			display:inline-block;
 			margin: auto auto;
 			padding-left:30px;
 			padding-right:30px;
 			min-width:100px;
+			margin-top:2px;
+		
+		}
+
+		#mlkeyboard-left-arrow {
+			display:inline-block;
+			
+		}
+
+		#mlkeyboard-right-arrow {
+			display:inline-block;
+			
+		}
+
+		#mlkeyboard-clear {
+			width:100%!important;
+			height:0!important;
+			clear:both!important;
+			display:block!important;
+			margin:0!important;
+			border:0!important;
 		}
     }
 
@@ -166,7 +201,7 @@ div#mlkeyboard,
 .numeric-container {
 	ul {
 		width: 258px!important;
-		height: 387px!important;
+		height: 397px!important;
 		margin: 0 auto;
 		padding: 0px;
 		border-radius: 5px 5px 0 0;
@@ -177,6 +212,45 @@ div#mlkeyboard,
 				height:80px!important;
 				line-height:80px!important;
 			 }
+
+			 &.num-pad-key-extras {
+				width:80px!important;
+				height:80px!important;
+				line-height:80px!important;
+				text-indent:0!important;
+				margin: 0 0 0.5% 0.5%!important;
+			 }
+		}
+
+		#mlkeyboard-close {
+
+			display:inline-block!important;
+		}
+
+		#mlkeyboard-left-arrow {
+
+			display:inline-block!important;
+		}
+
+		#mlkeyboard-right-arrow {
+			display:inline-block!important;
+		}
+
+		#mlkeyboard-clear {
+			width:100%!important;
+			height:0!important;
+			clear:both!important;
+			display:block!important;
+			margin:0!important;
+			border:0!important;
+		}
+	}
+}
+
+.email-container {
+	ul {
+		.email-keys {
+			display:inline-block;
 		}
 	}
 }

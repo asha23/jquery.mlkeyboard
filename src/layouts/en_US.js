@@ -11,9 +11,9 @@ mlKeyboard.layouts.en_US = [
   {d: '7',u: '&', np: true},
   {d: '8',u: '*', np: true},
   {d: '9',u: '(', np: true},
-  {d: '*',u: '(', np: true},
+  {d: '*', u:'*', np: true, hide:true},
   {d: '0',u: ')', np: true},
-  {d: '#',u: '(', np: true},
+  {d: '#', u:'#', np: true, hide:true},
   {d: '-',u: '_'},
   {d: '=',u: '+'},
   {}, // Delete
@@ -56,6 +56,11 @@ mlKeyboard.layouts.en_US = [
   {d: '.',u: '>'},
   {d: '/',u: '?'},
   {}, // Right shift
-  {},  // Space,
-  {} // Close
+  {d: '@', u:'@', email:true},
+  {}, // Space,
+  {d: '.', u:'.', email:true},
+  {}, // Clear
+  {}, // Left Arrow
+  {}, // Close
+  {}, // Right Arrow
 ];

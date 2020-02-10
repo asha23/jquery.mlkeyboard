@@ -5,7 +5,7 @@ function Keyboard(selector, options) {
 		active_shift: true,
 		active_caps: false,
 		is_hidden: true,
-		key_count: 54,
+		key_count: 61,
 		open_speed: 300,
 		close_speed: 100,
 		show_on_focus: true,
@@ -20,7 +20,7 @@ function Keyboard(selector, options) {
 
 	this.keys = [];
 
-	this.$keyboard = $("<div/>").attr("id", "mlkeyboard");
+	this.$keyboard = $("<div class='default-container' />").attr("id", "mlkeyboard");
 	this.$modifications_holder = $("<ul/>").addClass('mlkeyboard-modifications');
 	this.$current_input = $(selector);
 }
@@ -39,66 +39,98 @@ Keyboard.prototype.init = function () {
 	}
 
 	this.setUpKeys(false);
+
+	_this = this;
+
+	$('#mlkeyboard-left-arrow').click(function(e){
+		e.preventDefault();
+		_this.doTabLeft(_this.tab_index, _this.$current_input, _this.focussed_element);
+		
+	})
+
+	$('#mlkeyboard-right-arrow').click(function(e){
+		e.preventDefault();
+		_this.doTabRight(_this.tab_index, _this.$current_input, _this.focussed_element);
+	})
 };
 
 Keyboard.prototype.setUpKeys = function (numeric) {
 
 	var _this = this;
 
+	this.numkeys = this.keys.length;
 
 	$.each(this.keys, function (i, key) {
-
-	
 		key.preferences = mlKeyboard.layouts[_this.options.layout][i];
+
 		classPref = key.preferences['np'];
-	
+		emailPref = key.preferences['email'];
+		defaultHide = key.preferences['hide']
 
 		if(numeric) {
 			key.setNumPad(classPref);
-		
-		} else {
-			key.resetNumPad()
-		}
 
+			if(defaultHide === true) {
+				key.defaultShow();
+			}
+		} else {
+			key.resetNumPad(emailPref)
+
+			if(defaultHide === true) {
+				key.defaultHide();
+			}
+		}
+		
 		key.setCurrentValue();
 		key.setCurrentAction();
 		key.toggleActiveState();
 
 	});
-
-	
 };
 
 Keyboard.prototype.renderKeys = function () {
 
-	var $keys_holder = $("<ul/>");
+	var $keys_holder = $("<ul />");
 	for (var i = 0; i <= this.options.key_count; i++) {
 		var key;
 
+		
+		console.log(key);
+		console.dir(i + ' = ');
+
 		switch (i) {
-			case 13:
-				key = new KeyDelete(this);
+			case 15:
+				key = new KeyDelete(this); // Delete
 			break;
-			case 14:
+			case 16:
 				key = new KeyTab(this);
 			break;
-			case 28:
+			case 30:
 				key = new KeyCapsLock(this);
 			break;
-			case 40:
+			case 42:
 				key = new KeyReturn(this);
 			break;
-			case 41:
+			case 43:
 				key = new KeyShift(this, "left");
 			break;
-			case 52:
+			case 54:
 				key = new KeyShift(this, "right");
 			break;
-			case 53:
+			case 56:
 				key = new KeySpace(this);
 			break;
-			case 54:
+			case 58:
+				key = new KeyClear(this);
+			break;
+			case 59:
+				key = new KeyLeftArrow(this);
+			break;
+			case 60:
 				key = new KeyClose(this);
+			break;
+			case 61:
+				key = new KeyRightArrow(this);
 			break;
 			default:
 				key = new Key(this);
@@ -120,8 +152,6 @@ Keyboard.prototype.setUpFor = function ($input) {
 	if (this.options.show_on_focus) {
 		$input.bind('focus', function () { 
 			_this.showKeyboard($input); 
-
-			
 		});
 	}
 
@@ -130,9 +160,6 @@ Keyboard.prototype.setUpFor = function ($input) {
 		$input.bind('blur', function () {
 			var VERIFY_STATE_DELAY = 500;
 			
-			// Input focus changes each time when user click on keyboard key
-			// To prevent momentary keyboard collapse input state verifies with timers help
-			// Any key click action set current inputs keep_focus variable to true
 			clearTimeout(_this.blur_timeout);
 
 			_this.blur_timeout = setTimeout(function () {
@@ -172,7 +199,9 @@ Keyboard.prototype.showKeyboard = function ($input) {
 			this.keep_focus = true;
 		}
 
+		this.tab_index = null;
 		this.$current_input = $input;
+		this.tab_index = this.$current_input.index('.tabbable');
 
 		this.options = $.extend({}, this.global_options, this.inputLocalOptions());
 
@@ -182,7 +211,7 @@ Keyboard.prototype.showKeyboard = function ($input) {
 			var that = this;
 
   			setTimeout(function(){ 
-				  that.selectionStart = that.selectionEnd = 10000; 
+				that.selectionStart = that.selectionEnd = 10000; 
 			}, 0);
 		}
 
@@ -192,21 +221,32 @@ Keyboard.prototype.showKeyboard = function ($input) {
 
 		charCount = this.$current_input.val().length;
 
-
 		if(this.$current_input.hasClass('numeric')) {
 			this.numeric = true
+			this.$keyboard.removeClass();
 			this.$keyboard.addClass('numeric-container');
 			this.unshift();
 			this.setUpKeys(this.numeric);
 			
 		} else {
 			this.numeric = false;
-			this.$keyboard.removeClass('numeric-container');
+			this.$keyboard.removeClass();
+			this.$keyboard.addClass('default-container');
+
+			if(this.$current_input.hasClass('email-field')) {
+				this.$keyboard.removeClass();
+				this.$keyboard.addClass('email-container');
+			} else {
+				this.$keyboard.removeClass();
+				this.$keyboard.addClass('default-container');
+			}
+
 			if(charCount <= 1) {
 				this.resetShift();
 			} else {
 				this.unshift();
 			}
+
 			this.setUpKeys(this.numeric);
 		}
 
@@ -214,6 +254,8 @@ Keyboard.prototype.showKeyboard = function ($input) {
 			this.isVisible = true;
 			this.$keyboard.slideDown(this.options.openSpeed);
 		}
+
+		
 	}
 };
 
@@ -328,3 +370,12 @@ Keyboard.prototype.changeKeysState = function () {
 		key.toggleActiveState();
 	});
 };
+
+Keyboard.prototype.doTabLeft = function(tab_index) {
+	$('.tabbable').eq(tab_index - 1).focus();
+}
+
+Keyboard.prototype.doTabRight = function(tab_index) {
+	$('.tabbable').eq(tab_index + 1).focus();
+}
+

@@ -1,11 +1,15 @@
 (function($){
+  @@include('tabbable.js')
   @@include('key.js')
   @@include('key_delete.js')
   @@include('key_tab.js')
   @@include('key_caps_lock.js')
   @@include('key_return.js')
   @@include('key_shift.js')
+  @@include('key_left_arrow.js')
+  @@include('key_clear.js')
   @@include('key_space.js')
+  @@include('key_right_arrow.js')
   @@include('key_close.js')
   @@include('keyboard.js')
 

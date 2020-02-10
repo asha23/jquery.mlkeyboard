@@ -12,6 +12,5 @@ mlKeyboard.layouts.num_pad = [
     {d: '9',u: '('},
     {d: '*',u: ''},
     {d: '0',u: ')'},
-    {d: '#',u: ''},
-    {} // shift
+    {d: '#',u: ''}
 ];

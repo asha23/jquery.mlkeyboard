@@ -8,6 +8,7 @@ function Key(params) {
 
 	this.$key = $("<li/>");
 	this.current_value = null;
+
 }
 
 Key.prototype.render = function () {
@@ -25,6 +26,7 @@ Key.prototype.setCurrentValue = function () {
 		this.current_value = this.preferences.u ? this.preferences.u : this.default_value;
 	} else {
 		this.current_value = this.preferences.d ? this.preferences.d : this.default_value;
+		
 	}
 	this.$key.text(this.current_value);
 };
@@ -48,10 +50,14 @@ Key.prototype.defaultClickAction = function () {
 	this.keyboard.destroyModifications();
 
 	if (this.is_modificator) {
-		this.keyboard.deleteChar();
-		this.keyboard.printChar(this.current_value);
+		if(!this.no_char) {
+			this.keyboard.deleteChar();
+			this.keyboard.printChar(this.current_value);
+		}
 	} else {
-		this.keyboard.printChar(this.current_value);
+		if(!this.no_char) {
+			this.keyboard.printChar(this.current_value);
+		}
 	}
 
 	if (this.preferences.m && Object.prototype.toString.call(this.preferences.m) === '[object Array]') {
@@ -92,26 +98,33 @@ Key.prototype.setNumPad = function(classPref) {
 
 	if(classPref === true) {
 		this.$key.addClass('num-pad-key');
-		console.log(this.$key);
-		
 	} 
 
 	if(this.$key.hasClass('num-pad-key') === false || this.$key.hasClass('num-pad-key') === undefined) {
 		this.$key.hide();
-		
-	} else {
-		this.$key.show();
-	}
+	} 
 
 	if(this.$key.prop('id') === 'mlkeyboard-close') {
-		console.log('er');
+		$('#mlkeyboard-left-arrow').show();
+		$('#mlkeyboard-right-arrow').show();
 		$('#mlkeyboard-close').show();
 	}
-
 }
 
-Key.prototype.resetNumPad = function() {
+Key.prototype.resetNumPad = function(emailPref) {
 	this.$key.show();
 	this.$key.removeClass('num-pad-key');
+	this.$key.removeClass('num-pad-key-extras');
 
+	if(emailPref === true) {
+		this.$key.show();
+	}
+}
+
+Key.prototype.defaultHide = function(){
+	this.$key.hide();
+}
+
+Key.prototype.defaultShow = function(){
+	this.$key.show();
 }
