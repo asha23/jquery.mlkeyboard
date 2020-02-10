@@ -7,7 +7,6 @@ div#mlkeyboard,
     position: fixed;
     bottom: 0;
 	text-align:center;
-	display:block!important;
 
     ul,
 	li,
@@ -43,9 +42,11 @@ div#mlkeyboard,
             border: 1px solid #f9f9f9;
             -moz-border-radius: 5px;
             -webkit-border-radius: 5px;
+			border-radius:5px;
             border-color: #e5e5e5;
             cursor: pointer;
 			vertical-align:middle;
+	
 
             @media screen and (min-width: $freeze-size) {
 				display:inline-block;
@@ -141,14 +142,11 @@ div#mlkeyboard,
 		#mlkeyboard-close {
 			text-align: center;
 			background: white;
-
 			display:inline-block;
 			margin: auto auto;
 			padding-left:30px;
 			padding-right:30px;
 			min-width:100px;
-			margin-top:2px;
-		
 		}
 
 		#mlkeyboard-left-arrow {
@@ -219,6 +217,7 @@ div#mlkeyboard,
 				line-height:80px!important;
 				text-indent:0!important;
 				margin: 0 0 0.5% 0.5%!important;
+		
 			 }
 		}
 
