@@ -7,6 +7,7 @@ div#mlkeyboard,
     position: fixed;
     bottom: 0;
 	text-align:center;
+	display:block!important;
 
     ul,
 	li,
@@ -20,14 +21,14 @@ div#mlkeyboard,
 	.num-pad {
         background: #eee;
         list-style: none;
-        font-size: 12px;
+        font-size: 24px;
         -moz-user-select: none;
         -webkit-user-select: none;
         -ms-user-select: none;
 
         @media screen and (min-width: $freeze-size) {
-            width: 670px;
-            height: 283px;
+            width: 937px;
+            height: 398px;
             margin: 0 auto;
             padding: 0px;
             border-radius: 5px 5px 0 0;
@@ -50,9 +51,9 @@ div#mlkeyboard,
 
             @media screen and (min-width: $freeze-size) {
 				display:inline-block;
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
                 margin: 2px;
             }
 
@@ -99,7 +100,7 @@ div#mlkeyboard,
             width: 12%;
 
             @media screen and (min-width: $freeze-size) {
-                width: 75px;
+                width: 117px;
             }
         }
 
@@ -115,7 +116,7 @@ div#mlkeyboard,
             width: 14%;
 
             @media screen and (min-width: $freeze-size) {
-                width: 100px;
+               width: 132px;
             }
         }
 
@@ -123,7 +124,7 @@ div#mlkeyboard,
             width: 12%;
 
             @media screen and (min-width: 540px) {
-                width: 96px;
+                width: 132px;
                 margin-right: 0;
             }
         }
@@ -133,8 +134,7 @@ div#mlkeyboard,
             width: 98%;
 
             @media screen and (min-width: $freeze-size) {
-                width: 453px;
-	
+                width: 563px;
             }
 			
 		}
@@ -198,17 +198,17 @@ div#mlkeyboard,
 
 .numeric-container {
 	ul {
-		width: 258px!important;
-		height: 397px!important;
+		width: 308px!important;
+		height: 460px!important;
 		margin: 0 auto;
 		padding: 0px;
 		border-radius: 5px 5px 0 0;
 
 		.num-pad-key {
 			 @media screen and (min-width: $freeze-size) {
-				width:80px!important;
-				height:80px!important;
-				line-height:80px!important;
+				width:92px!important;
+				height:92px!important;
+				line-height:92px!important;
 			 }
 
 			 &.num-pad-key-extras {

@@ -1,0 +1,112 @@
+body {
+    padding-top:0;
+}
+
+/* Style the video: 100% width and height to cover the entire window */
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+
+/* Position the button used to pause/play the video */
+#myContainer {
+    position: fixed;
+    bottom: 0;
+    right:0;
+    width: 100%;
+    background: transparent;
+}
+
+#buttonContainer {
+    position: fixed;
+    bottom: 0;
+    right:0;
+    width: 100%;
+    background: transparent;
+}
+
+
+#buttonContainerVertical {
+    position: fixed;
+    /*top: 0;
+    right:0;*/
+    /*width: 50%;*/
+    background: white;
+    display:none;
+    margin-top:230px;
+}
+
+#buttonContainerVertical2 {
+     background: white;
+     display:none;
+     margin-top:160px;
+ }
+
+#buttonContainerVertical3 {
+    background: white;
+    margin-top:160px;
+}
+#myBtnLeft {
+    position: relative;
+    bottom: 0;
+    float:left;
+    margin-left:40px;
+    margin-bottom:40px;
+}
+
+#cancelBackButton {
+    position: relative;
+    bottom: 0;
+    float:right;
+    margin-right:40px;
+    margin-bottom:40px;
+}
+
+#nextButton {
+     position: relative;
+     bottom: 0;
+     float:right;
+     margin-right:200px;
+     margin-bottom:40px;
+}
+
+#skipButton {
+    position: relative;
+    bottom: 0;
+    float:right;
+    margin-right:40px;
+    margin-bottom:40px;
+}
+
+#womanContainer {
+    position: fixed;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    background: transparent;
+}
+
+#womanRight {
+    position: relative;
+    bottom: 0;
+    float:right;
+    margin-right:200px;
+    /*margin-bottom:160px;*/
+    margin-bottom:100px;
+
+    max-height:820px;
+    max-width:440px;
+}
+
+.instructionCardText {
+    background: transparent;
+    color:#000;
+    margin-top:10px;
+    font-weight: bold;
+}
+
+

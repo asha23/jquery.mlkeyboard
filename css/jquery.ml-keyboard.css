@@ -1,0 +1,252 @@
+div#mlkeyboard, .numeric-container {
+    font-family: Tahoma, Arial, sans-serif;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    display: block !important
+}
+
+div#mlkeyboard ul, div#mlkeyboard li, div#mlkeyboard .num-pad, .numeric-container ul, .numeric-container li, .numeric-container .num-pad {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box
+}
+
+div#mlkeyboard ul, div#mlkeyboard .num-pad, .numeric-container ul, .numeric-container .num-pad {
+    background: #eee;
+    list-style: none;
+    font-size: 24px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul, div#mlkeyboard .num-pad, .numeric-container ul, .numeric-container .num-pad {
+        width: 1000px;
+        height: 450px;
+        margin: 0 auto;
+        padding: 0px;
+        border-radius: 5px 5px 0 0
+    }
+}
+
+div#mlkeyboard ul li, div#mlkeyboard .num-pad li, .numeric-container ul li, .numeric-container .num-pad li {
+    display: inline-block;
+    margin: 0 0 0.5% 0.5%;
+    width: 6%;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #f9f9f9;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-color: #e5e5e5;
+    cursor: pointer;
+    vertical-align: middle
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul li, div#mlkeyboard .num-pad li, .numeric-container ul li, .numeric-container .num-pad li {
+        display: inline-block;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        margin: 2px
+    }
+}
+
+div#mlkeyboard ul li.active, div#mlkeyboard .num-pad li.active, .numeric-container ul li.active, .numeric-container .num-pad li.active {
+    background-color: #e6ffd8;
+    border-color: #6fda54
+}
+
+div#mlkeyboard ul li:hover, div#mlkeyboard .num-pad li:hover, .numeric-container ul li:hover, .numeric-container .num-pad li:hover {
+    background-color: #ffd488;
+    border-color: #ffae6e
+}
+
+div#mlkeyboard ul .email-keys, div#mlkeyboard .num-pad .email-keys, .numeric-container ul .email-keys, .numeric-container .num-pad .email-keys {
+    display: none
+}
+
+div#mlkeyboard ul .num-pad-key-extras, div#mlkeyboard .num-pad .num-pad-key-extras, .numeric-container ul .num-pad-key-extras, .numeric-container .num-pad .num-pad-key-extras {
+    display: none
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul #mlkeyboard-backspace, div#mlkeyboard .num-pad #mlkeyboard-backspace, .numeric-container ul #mlkeyboard-backspace, .numeric-container .num-pad #mlkeyboard-backspace {
+        width: 66px
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-tab, div#mlkeyboard .num-pad #mlkeyboard-tab, .numeric-container ul #mlkeyboard-tab, .numeric-container .num-pad #mlkeyboard-tab {
+    width: 7%
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul #mlkeyboard-tab, div#mlkeyboard .num-pad #mlkeyboard-tab, .numeric-container ul #mlkeyboard-tab, .numeric-container .num-pad #mlkeyboard-tab {
+        width: 70px
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-capslock, div#mlkeyboard .num-pad #mlkeyboard-capslock, .numeric-container ul #mlkeyboard-capslock, .numeric-container .num-pad #mlkeyboard-capslock {
+    width: 12%
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul #mlkeyboard-capslock, div#mlkeyboard .num-pad #mlkeyboard-capslock, .numeric-container ul #mlkeyboard-capslock, .numeric-container .num-pad #mlkeyboard-capslock {
+        width: 80px;
+        margin-left:25px;
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-return, div#mlkeyboard .num-pad #mlkeyboard-return, .numeric-container ul #mlkeyboard-return, .numeric-container .num-pad #mlkeyboard-return {
+    width: 8%
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul #mlkeyboard-return, div#mlkeyboard .num-pad #mlkeyboard-return, .numeric-container ul #mlkeyboard-return, .numeric-container .num-pad #mlkeyboard-return {
+        width: 90px
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-left-shift, div#mlkeyboard .num-pad #mlkeyboard-left-shift, .numeric-container ul #mlkeyboard-left-shift, .numeric-container .num-pad #mlkeyboard-left-shift {
+    width: 14%
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul #mlkeyboard-left-shift, div#mlkeyboard .num-pad #mlkeyboard-left-shift, .numeric-container ul #mlkeyboard-left-shift, .numeric-container .num-pad #mlkeyboard-left-shift {
+        width: 120px;
+        margin-left:25px;
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-right-shift, div#mlkeyboard .num-pad #mlkeyboard-right-shift, .numeric-container ul #mlkeyboard-right-shift, .numeric-container .num-pad #mlkeyboard-right-shift {
+    width: 12%
+}
+
+@media screen and (min-width: 540px) {
+    div#mlkeyboard ul #mlkeyboard-right-shift, div#mlkeyboard .num-pad #mlkeyboard-right-shift, .numeric-container ul #mlkeyboard-right-shift, .numeric-container .num-pad #mlkeyboard-right-shift {
+        width: 120px;
+        margin-right: 0
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-space, div#mlkeyboard .num-pad #mlkeyboard-space, .numeric-container ul #mlkeyboard-space, .numeric-container .num-pad #mlkeyboard-space {
+    width: 98%
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul #mlkeyboard-space, div#mlkeyboard .num-pad #mlkeyboard-space, .numeric-container ul #mlkeyboard-space, .numeric-container .num-pad #mlkeyboard-space {
+        width: 700px;
+/*        margin-left:50px;*/
+    }
+}
+
+div#mlkeyboard ul #mlkeyboard-close, div#mlkeyboard .num-pad #mlkeyboard-close, .numeric-container ul #mlkeyboard-close, .numeric-container .num-pad #mlkeyboard-close {
+    text-align: center;
+    background: white;
+    display: inline-block;
+    margin: auto auto;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 100px;
+    margin-top: 2px
+}
+
+div#mlkeyboard ul #mlkeyboard-left-arrow, div#mlkeyboard .num-pad #mlkeyboard-left-arrow, .numeric-container ul #mlkeyboard-left-arrow, .numeric-container .num-pad #mlkeyboard-left-arrow {
+    display: inline-block
+}
+
+div#mlkeyboard ul #mlkeyboard-right-arrow, div#mlkeyboard .num-pad #mlkeyboard-right-arrow, .numeric-container ul #mlkeyboard-right-arrow, .numeric-container .num-pad #mlkeyboard-right-arrow {
+    display: inline-block
+}
+
+div#mlkeyboard ul #mlkeyboard-clear, div#mlkeyboard .num-pad #mlkeyboard-clear, .numeric-container ul #mlkeyboard-clear, .numeric-container .num-pad #mlkeyboard-clear {
+    width: 100% !important;
+    height: 0 !important;
+    clear: both !important;
+    display: block !important;
+    margin: 0 !important;
+    border: 0 !important
+}
+
+div#mlkeyboard ul.mlkeyboard-modifications, .numeric-container ul.mlkeyboard-modifications {
+    position: absolute;
+    background: rgba(133, 133, 133, 0.6);
+    border-radius: 5px;
+    display: none;
+    padding: 8px
+}
+
+@media screen and (min-width: 700px) {
+    div#mlkeyboard ul.mlkeyboard-modifications, .numeric-container ul.mlkeyboard-modifications {
+        height: 46px
+    }
+}
+
+div#mlkeyboard .num-pad, .numeric-container .num-pad {
+    width: 258px;
+    height: 344px;
+    margin: 0 auto;
+    padding: 0px;
+    border-radius: 5px 5px 0 0
+}
+
+div#mlkeyboard .num-pad li, .numeric-container .num-pad li {
+    width: 80px;
+    height: 80px;
+    line-height: 80px
+}
+
+.numeric-container ul {
+    width: 258px !important;
+    height: 397px !important;
+    margin: 0 auto;
+    padding: 0px;
+    border-radius: 5px 5px 0 0
+}
+
+@media screen and (min-width: 700px) {
+    .numeric-container ul .num-pad-key {
+        width: 80px !important;
+        height: 80px !important;
+        line-height: 80px !important
+    }
+}
+
+.numeric-container ul .num-pad-key.num-pad-key-extras {
+    width: 80px !important;
+    height: 80px !important;
+    line-height: 80px !important;
+    text-indent: 0 !important;
+    margin: 0 0 0.5% 0.5% !important
+}
+
+.numeric-container ul #mlkeyboard-close {
+    display: inline-block !important
+}
+
+.numeric-container ul #mlkeyboard-left-arrow {
+    display: inline-block !important
+}
+
+.numeric-container ul #mlkeyboard-right-arrow {
+    display: inline-block !important
+}
+
+.numeric-container ul #mlkeyboard-clear {
+    width: 100% !important;
+    height: 0 !important;
+    clear: both !important;
+    display: block !important;
+    margin: 0 !important;
+    border: 0 !important
+}
+
+.email-container ul .email-keys {
+    display: inline-block
+}
+
+/*# sourceMappingURL=jquery.ml-keyboard.css.map */

@@ -2,7 +2,7 @@ function KeyClose(){
     Key.call(this, arguments);
 
     this.id = "mlkeyboard-close";
-    this.default_value = 'Close Keyboard';
+    this.default_value = 'Close';
 }
 
 KeyClose.prototype = new Key();

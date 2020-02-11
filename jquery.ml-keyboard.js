@@ -255,7 +255,7 @@ Key.prototype.defaultShow = function(){
   Key.call(this, arguments);
 
   this.id = "mlkeyboard-backspace";
-  this.default_value = 'delete';
+  this.default_value = 'del';
 }
 
 KeyDelete.prototype = new Key();
@@ -373,7 +373,7 @@ KeySpace.prototype.constructor = KeySpace;
     Key.call(this, arguments);
 
     this.id = "mlkeyboard-close";
-    this.default_value = 'Close Keyboard';
+    this.default_value = 'Close';
 }
 
 KeyClose.prototype = new Key();
