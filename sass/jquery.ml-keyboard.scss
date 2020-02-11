@@ -8,6 +8,7 @@ div#mlkeyboard,
     bottom: 0;
 	text-align:center;
 	display:block!important;
+	margin-bottom:30px;
 
     ul,
 	li,
@@ -116,7 +117,7 @@ div#mlkeyboard,
             width: 14%;
 
             @media screen and (min-width: $freeze-size) {
-               width: 132px;
+               width: 130px;
             }
         }
 
@@ -124,7 +125,7 @@ div#mlkeyboard,
             width: 12%;
 
             @media screen and (min-width: 540px) {
-                width: 132px;
+                width: 130px;
                 margin-right: 0;
             }
         }
