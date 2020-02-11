@@ -541,8 +541,6 @@ Keyboard.prototype.setUpFor = function ($input) {
 
 		$input.bind('blur', function () {
 			var VERIFY_STATE_DELAY = 500;
-
-			console.log('blur')
 			
 			clearTimeout(_this.blur_timeout);
 
