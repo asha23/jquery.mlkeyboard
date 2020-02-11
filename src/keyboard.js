@@ -145,19 +145,20 @@ Keyboard.prototype.renderKeys = function () {
 Keyboard.prototype.setUpFor = function ($input) {
 	var _this = this;
 
+	$input_context = $input.context.type;
 
-	if (this.options.show_on_focus) {
+	if (this.options.show_on_focus && $input_context !== 'checkbox') {
 		$input.bind('focus', function () { 
-			if($input.context.type !== 'checkbox') {
-				_this.showKeyboard($input); 
-			}
+			_this.showKeyboard($input); 
 		});
 	}
 
-	if (this.options.hide_on_blur) {
+	if (this.options.hide_on_blur && $input_context !== 'checkbox') {
 
 		$input.bind('blur', function () {
 			var VERIFY_STATE_DELAY = 500;
+
+			console.log('blur')
 			
 			clearTimeout(_this.blur_timeout);
 
@@ -173,7 +174,7 @@ Keyboard.prototype.setUpFor = function ($input) {
 		});
 	}
 
-	if (this.options.trigger) {
+	if (this.options.trigger && $input_context !== 'checkbox') {
 		var $trigger = $(this.options.trigger);
 
 		$trigger.bind('click', function (e) {
@@ -191,6 +192,8 @@ Keyboard.prototype.setUpFor = function ($input) {
 
 Keyboard.prototype.showKeyboard = function ($input) {
 	var input_changed = !this.$current_input || $input[0] !== this.$current_input[0];
+
+	$input_context = $input.context.type;
 
 	if (!this.keep_focus || input_changed) {
 
