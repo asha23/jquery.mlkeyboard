@@ -478,9 +478,6 @@ Keyboard.prototype.renderKeys = function () {
 	for (var i = 0; i <= this.options.key_count; i++) {
 		var key;
 
-		
-		console.log(key);
-		console.dir(i + ' = ');
 
 		switch (i) {
 			case 15:
@@ -535,7 +532,9 @@ Keyboard.prototype.setUpFor = function ($input) {
 
 	if (this.options.show_on_focus) {
 		$input.bind('focus', function () { 
-			_this.showKeyboard($input); 
+			if($input.context.type !== 'checkbox') {
+				_this.showKeyboard($input); 
+			}
 		});
 	}
 

@@ -20,30 +20,53 @@
     <h2 class="page-header">jQuery MultiLanguage keyboard</h2>
     <i>Current version 0.0.1</i>
     <h4>ML Keyboard usage examples</h4>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="example-block">
-          <h4>English</h4>
-          <input type="text" id="field-1" class="col-md-12 tabbable" placeholder="Try" tabindex="1" />
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="example-block">
-          <h4>English</h4>
-          <input type="text" id="field-2" class="col-md-12 email-field tabbable" placeholder="Try" tabindex="2" />
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="example-block">
-          <h4>English</h4>
-          <input type="phone" id="field-3" class="col-md-12 numeric tabbable" placeholder="Try" tabindex="3" />
-        </div>
-      </div>
-
-
-    </div>
+    <form id="register_form">
+              <div class="form-group" style="width:60%;">
+                <label for="your_name" style="font-weight: bold;">Your Name</label>
+                    <input type="text" class="form-control tabbable" placeholder="" name="your_name" id="your_name">
+                    <div class="simple-keyboard"></div>
+              </div>
+              <div class="form-group" style="width:60%;">
+                <label for="email"style="font-weight: bold;">Email Address</label>
+                <input type="text" class="form-control email-field tabbable" aria-describedby="emailHelp" name="email" id="email">
+                <div class="simple-keyboard"></div>
+              </div>
+              <div class="form-group" style="width:60%;">
+                <label for="telephone" style="font-weight: bold;">Mobile Number</label>
+                    <input type="phone" class="form-control numeric tabbable" placeholder="" name="telephone" id="telephone">
+                    <div class="simple-keyboard"></div>
+                <small id="mobileHelp" class="form-text">We use this to notify you when your scan is ready to view.</small>
+              </div>
+              <div class="form-group" style="width:60%;">
+                <label for="password" style="font-weight: bold;">Password</label>
+                <input type="password" class="form-control tabbable" name="password" id="password">
+                <div class="simple-keyboard"></div>
+              </div>
+              <p style="font-weight: bold;">&nbsp;</p>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="agree_to_terms" name="agree_to_terms">
+                <label class="form-check-label" for="agree_to_terms">
+                I understand and accept that my scan data will be handled in accordance with the 4D.Me Terms and Conditions, Privacy and Data Processing Policies. <br>
+                I will review and keep myself up to date with these policies via the 4D.Me app and the website at https://4d.me <br>
+                I consent to 4D.Me contacting me via my registered email address and/or mobile phone number for legal and account maintenance reasons.
+                </label>
+              </div>
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="agree_to_marketing" name="agree_to_marketing">
+                <label class="form-check-label" for="agree_to_marketing">
+                I would also like to recieve offers and information from 4D.Me partners whose services may be relevent to me.
+                </label>
+              </div>
+              <div class="d-flex flex-row">
+                <button id="next" type="submit" class="btn btn-lg button green ml-auto" name="submit" value="Submit" style="width: 100%;">
+                                        Register New Account &nbsp;&nbsp;&nbsp;<i class="fas fa-sign-in-alt"></i>
+                </button>
+               </div>
+        <!-- @todo We'll write a script for this that populates the booth ID so we know very precisely where peeople signed up -->
+        <input type="hidden" name="booth_id" value="UK" />
+        <!-- @todo Location will be paired with booth id info and also be auto populated here -->
+        <input type="hidden" name="location" value="+44" id="location" />
+        </form>
    
 
     <div class="row">
